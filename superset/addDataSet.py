@@ -48,8 +48,10 @@ def DeleteDataSet(session, access_token, csrf_token):
                                         })
     print(response1.text)
 
+
 # {"database":6,"schema":"mainnet14","table_name":"a_01ab36aaf654a13e_rariblenft_mint"}
 def AddDataSet(session, access_token, csrf_token, table_name, schema):
+    # print(access_token,csrf_token)
     url_add_dataset = 'http://127.0.0.1:8088/api/v1/dataset/'
     response = session.post(
         url_add_dataset,
@@ -63,6 +65,7 @@ def AddDataSet(session, access_token, csrf_token, table_name, schema):
               }
     )
 
+    print(response)
     print(response.text)
 
 
@@ -74,7 +77,7 @@ def AddDataSet(session, access_token, csrf_token, table_name, schema):
 # DeleteDataSet(session,access_token, csrf_token)
 
 
-with open('../pyspark/createTable.sql') as f:
+with open('/home/ubuntu/airflow/dags/sql/createTable.sql') as f:
     tables = f.readlines()
 table_names = []
 for i in tables:
@@ -82,7 +85,7 @@ for i in tables:
 
 for table_name in table_names:
     table_name = table_name.replace("\n","")
-    print('Processing : ' + table_name)
+    print('Processing : ' + table_name.lower())
     session = Session()
     access_token = Login(session)
     # print(access_token)

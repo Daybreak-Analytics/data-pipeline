@@ -10,7 +10,7 @@ var ch = make(chan int, number)
 var chBranch = make(chan int, number)
 var WRITE_SEPARATOR = "\t"
 var LIVE_SEPARATOR = ","
-var BATCH = 25
+var BATCH = 20
 var ExecutionStateBucket = "flow_public_mainnet19_execution_state"
 var Lock = sync.Mutex{}
 
