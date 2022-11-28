@@ -11,7 +11,7 @@ var chBranch = make(chan int, number)
 var WRITE_SEPARATOR = "\t"
 var LIVE_SEPARATOR = ","
 var BATCH = 15
-var ExecutionStateBucket = "flow_public_mainnet19_execution_state"
+var ExecutionStateBucket = "flow_public_mainnet20_execution_state"
 var Lock = sync.Mutex{}
 
 func main() {
@@ -21,5 +21,8 @@ func main() {
 	// UpdateQueryBlockDate()
 	// Mainnet17
 	GetLiveData(os.Args[1])
+
+	// spork_twenty()
+	// s3test()
 
 }

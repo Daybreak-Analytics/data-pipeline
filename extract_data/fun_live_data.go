@@ -49,10 +49,11 @@ func GetLiveData(date string) {
 		}
 	}
 
-	// start_block, end_block := 36312911, 36374439
+	// start_block, end_block := 40314357, 40373836
 	start = time.Now()
 	getBlockDataForGivenBlockMultiThread(ctx, flow, uint64(start_block), uint64(end_block), "./liveEvent/"+date+".tsv", bucket, decoder)
 	elapsed = time.Since(start)
+
 	fmt.Println("Look for event and write them Time cost:", elapsed)
 
 }
@@ -120,13 +121,6 @@ func getBlockDataForGivenBlockMultiThread(ctx context.Context, flow *client.Clie
 			wg.Add(1)
 			go getBlockMultiThread(ctx, flow, i+uint64(j), bucket, decoder, data, &wg, f)
 		}
-
-		// go writeContentToFile(data, done, f)
-		// go func() {
-		// 	wg.Wait()
-		// 	close(data)
-		// }()
-		// <-done
 		wg.Wait()
 
 		i += uint64(batch)
@@ -142,7 +136,7 @@ func getBlockMultiThread(ctx context.Context, flow *client.Client, height uint64
 	object := bucket.Object(fmt.Sprintf("%s.cbor", header.ID.String()))
 	reader, err_new_reader := object.NewReader(ctx)
 	if err_new_reader != nil {
-		fmt.Println("New Reader Wrong BlockID", header.ID.String())
+		fmt.Println("New Reader Wrong BlockID", header.ID.String(), err_new_reader, height)
 	} else {
 		data, err_reader := io.ReadAll(reader)
 		if err_reader != nil {
